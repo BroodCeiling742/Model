@@ -3,40 +3,119 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="Arm">
     <link name="base_link">
         <visual>
-            <origin xyz="0.0 0.0 0.0" rpy="1.57 0.0 0.0"/>
+            <origin xyz="0.0 0.0 0.0" rpy="0 0.0 0.0"/>
             <geometry>
-                <mesh filename="package://arm/meshes/Circular_Base.STL" scale="0.01 0.01 0.01"/>
+                <mesh filename="package://arm/meshes/Base.stl" scale="0.01 0.01 0.01"/>
             </geometry>
+            <material name="Grey">
+                <color rgba="0.3 0.3 0.3 1.0"/>
+            </material>
         </visual>
-
         <collision>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
             <geometry>
-                <mesh filename="package://arm/meshes/Circular_Base.STL" scale="0.01 0.01 0.01"/>
+                <mesh filename="package://arm/meshes/Base.stl" scale="0.01 0.01 0.01"/>
             </geometry>
         </collision>
 
     </link>
     <link name="shoulder">
         <visual>
-            <origin xyz="0.0 0.0 0.0" rpy="1.57 0.0 0.0"/>
+            <origin xyz="0.0 0.0 0.0" rpy="0 0.0 0.0"/>
             <geometry>
-                <mesh filename="package://arm/meshes/Shoulder.STL" scale="0.01 0.01 0.01"/>
+                <mesh filename="package://arm/meshes/Shoulder.stl" scale="0.01 0.01 0.01"/>
             </geometry>
+            <material name="Blue">
+                <color rgba="0.1 0.1 0.4 1.0"/>
+            </material>            
         </visual>
-
         <collision>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
             <geometry>
-                <mesh filename="package://arm/meshes/Shoulder.STL" scale="0.01 0.01 0.01"/>
+                <mesh filename="package://arm/meshes/Shoulder.stl" scale="0.01 0.01 0.01"/>
             </geometry>
         </collision>
     </link>
 
     <joint name="Shoulder" type="revolute">
-        <origin xyz="0.0 0.0 0.5" rpy="0.0 0.0 0.0"/>
-        <parent link="base_link"/>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <parent link="base_motor"/>
         <child link="shoulder"/>
+        <axis xyz="0.0 0.0 1.0"/>
+        <limit lower="-1.57" upper="1.57" effort="1.0" velocity="1.0"/>
+    </joint>
+
+    <link name="base_motor">
+        <visual>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <mesh filename="package://arm/meshes/Base_motor.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+            <material name="Black">
+                <color rgba="0.0 0.0 0.0 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <mesh filename="package://arm/meshes/Base_motor.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+        </collision>        
+    </link>
+
+    <joint name="Base_motor" type="fixed">
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <parent link="base_link"/>
+        <child link="base_motor"/>
+        <axis xyz="0.0 0.0 0.0"/>
+    </joint>
+
+    <link name="link_1">
+        <visual>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <mesh filename="package://arm/meshes/Link_1.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+            <material name="Grey">
+                <color rgba="0.3 0.3 0.3 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <mesh filename="package://arm/meshes/Link_1.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+        </collision>        
+    </link>    
+
+    <link name="shoulder_motor">
+        <visual>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <mesh filename="package://arm/meshes/Shoulder_motor.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+            <material name="Black">
+                <color rgba="0.0 0.0 0.0 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <mesh filename="package://arm/meshes/Shoulder_motor.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+        </collision>        
+    </link>
+
+    <joint name="shoulder_motor" type="fixed">
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <parent link="shoulder"/>
+        <child link="shoulder_motor"/>
+    </joint>
+
+    <joint name="link_1" type="revolute">
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <parent link="shoulder_motor"/>
+        <child link="link_1"/>
         <axis xyz="0.0 0.0 1.0"/>
         <limit lower="-1.57" upper="1.57" effort="1.0" velocity="1.0"/>
     </joint>
