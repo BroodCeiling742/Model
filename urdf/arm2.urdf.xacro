@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="Arm">
+    <link name="base_link">
+        <visual>
+            <origin xyz="0.0 0.0 0.0" rpy="0 0.0 0.0"/>
+            <geometry>
+                <mesh filename="package://arm/meshes/Base.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+            <material name="Grey">
+                <color rgba="0.3 0.3 0.3 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <mesh filename="package://arm/meshes/Base.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+        </collision>
+
+    </link>
+    <link name="shoulder">
+        <visual>
+            <origin xyz="0.06 0.015 -0.6" rpy="0 0.0 0.0"/>
+            <geometry>
+                <mesh filename="package://arm/meshes/Shoulder.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+            <material name="Blue">
+                <color rgba="0.1 0.1 0.4 1.0"/>
+            </material>            
+        </visual>
+        <collision>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <mesh filename="package://arm/meshes/Shoulder.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="Shoulder" type="revolute">
+        <origin xyz="-0.06 -0.015 0.6" rpy="0.0 0.0 0.0"/>
+        <parent link="base_link"/>
+        <child link="shoulder"/>
+        <axis xyz="0.0 0.0 1.0"/>
+        <limit lower="-1.57" upper="1.57" effort="1.0" velocity="1.0"/>
+    </joint>
+
+
+
+    <link name="link_1">
+        <visual>
+            <origin xyz="0.0 -0.1 -0.95" rpy="0.0 0.0 0.77"/>
+            <geometry>
+                <mesh filename="package://arm/meshes/Link_1.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+            <material name="Grey">
+                <color rgba="0.3 0.3 0.3 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0.0 -0.1 -0.95" rpy="0.0 0.0 0.77"/>            
+            <geometry>
+                <mesh filename="package://arm/meshes/Link_1.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+        </collision>        
+    </link>    
+
+    <joint name="Link_1" type="revolute">
+        <origin xyz="0.1 0.1 0.37" rpy="0.0 0.0 -0.77"/>
+        <parent link="shoulder"/>
+        <child link="link_1"/>
+        <axis xyz="1.0 0.0 0.0"/>
+        <limit lower="-1.57" upper="1.57" effort="1.0" velocity="1.0"/>
+    </joint>
+
+    <link name="link_2">
+        <visual>
+            <origin xyz="0.0 0.137 -2.15" rpy="0.0 0.0 0.77"/>
+            <geometry>
+                <mesh filename="package://arm/meshes/Link_2.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+            <material name="Blue">
+                <color rgba="0.1 0.1 0.4 1.0"/>
+            </material>
+        </visual>
+
+        <collision>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <mesh filename="package://arm/meshes/Link_2.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="link_2" type="revolute">
+        <origin xyz="0.0 -0.25 1.2" rpy="0.0 0.0 0.0"/>
+        <parent link="link_1"/>
+        <child link="link_2"/>
+        <axis xyz="1.0 0.0 0.0"/>
+        <limit lower="0" upper="3.14" effort="1.0" velocity="1.0"/>
+    </joint>
+
+    <link name="link_3">
+        <visual>
+            <origin xyz="0.1 -0.79 -2" rpy="-0.0 -0.0 0.77"/>
+            <geometry>
+                <mesh filename="package://arm/meshes/Link_3.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+            <material name="Grey">
+                <color rgba="0.3 0.3 0.3 1.0"/>
+            </material>
+        </visual>
+
+        <collision>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <mesh filename="package://arm/meshes/Link_3.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="link_3" type="revolute">
+        <origin xyz="-0.15 0.9 -0.1" rpy="0.0 0.0 0.0"/>
+        <parent link="link_2"/>
+        <child link="link_3"/>
+        <axis xyz="0.0 1.0 0.0"/>
+        <limit lower="-1.57" upper="1.57" effort="1.0" velocity="1.0"/>
+    </joint>
+
+</robot>
